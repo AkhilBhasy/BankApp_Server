@@ -7,18 +7,18 @@ app.get('/',(req,res)=>{
     res.status(401).send("Server Started,GET Method...")
 })
 
-app.post('/',(req,res)=>{
-    res.send("POST Method")
-})
-app.put('/',(req,res)=>{
-    res.send("PUT Method")
-})
-app.patch('/',(req,res)=>{
-    res.send("PATCH Method")
-})
-app.delete('/',(req,res)=>{
-    res.send("DELETE Method")
-})
+// app.post('/',(req,res)=>{
+//     res.send("POST Method")
+// })
+// app.put('/',(req,res)=>{
+//     res.send("PUT Method")
+// })
+// app.patch('/',(req,res)=>{
+//     res.send("PATCH Method")
+// })
+// app.delete('/',(req,res)=>{
+//     res.send("DELETE Method")
+// })
 
 
 app.post('/register',(req,res)=>{
@@ -31,6 +31,18 @@ app.post('/register',(req,res)=>{
 app.post('/login',(req,res)=>{
     console.log(req.body)
    const result= dataService.login(req.body.acno,req.body.pswd)
+   res.status(result.statusCode).json(result)
+})
+
+app.post('/deposit',(req,res)=>{
+    console.log(req.body)
+   const result= dataService.deposit(req.body.acno,req.body.pswd,req.body.amt)
+   res.status(result.statusCode).json(result)
+})
+
+app.post('/withdraw',(req,res)=>{
+    console.log(req.body)
+   const result= dataService.withdraw(req.body.acno,req.body.pswd,req.body.amt)
    res.status(result.statusCode).json(result)
 })
 

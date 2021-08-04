@@ -67,7 +67,92 @@ user= {
     }
   }
 
+
+ const deposit=(acno, pswd, amt)=> {
+    var amount = parseInt(amt)
+    
+    if (acno in user) {
+      if (pswd == user[acno]["password"]) {
+        user[acno]["balance"] += amount
+
+        user[acno].transaction.push({
+          amount:amount,
+          type:"Credit"
+        })
+        
+        return {
+            statusCode:200,
+            status:true,
+            message:amount+" credited successfully.. Balance: "+ user[acno]["balance"]
+        }
+      }
+      else {
+        return {
+            statusCode:422,
+              status:false,
+              message:"Invalid password"
+          }
+      }
+    }
+    else {
+        return {
+            statusCode:422,
+              status:false,
+              message:"Invalid User"
+          }
+    }
+
+  }
+
+ const withdraw=(acno, pswd, amt) =>{
+    var amount = parseInt(amt)
+   
+    if (acno in user) {
+      if (pswd == user[acno]["password"]) {
+        if (user[acno]["balance"] > amount) {
+
+
+          user[acno]["balance"] -= amount
+          user[acno].transaction.push({
+            amount:amount,
+            type:"Debit"
+          })
+         
+          return {
+            statusCode:200,
+            status:true,
+            message:amount+" Debited successfully.. Balance: "+ user[acno]["balance"]
+          }
+        }
+        else {
+          return  {
+                statusCode:422,
+                  status:false,
+                  message:"Insufficient Balance"
+              }
+        }
+      }
+      else {
+        return  {
+            statusCode:422,
+              status:false,
+              message:"Invalid password"
+          }
+      }
+    }
+    else {
+        return {
+            statusCode:422,
+              status:false,
+              message:"Invalid User"
+          }
+    }
+
+  }
+
   module.exports={
       register,
-      login
+      login,
+      deposit,
+      withdraw
   }
